@@ -12,14 +12,12 @@ public class knapsack {
             return 0;
         }
 
-        if(weight[items -1] <= knapsackWeight)
+        if(weight[items -1] <= knapsackWeight){
             return Math.max(prices[items-1] + knapsackProfit(weight, prices, knapsackWeight - weight[items-1], items-1) , knapsackProfit(weight, prices, knapsackWeight, items-1));
+        }
+
+        return knapsackProfit(weight, prices, knapsackWeight, items-1);
         
-            
-        else if(weight[items-1]> knapsackWeight)
-            return knapsackProfit(weight, prices, knapsackWeight, items-1);
-        
-        return 0;
     }
 
 
