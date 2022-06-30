@@ -1,4 +1,4 @@
-package Trees;
+package Trees.Binary;
 
 import java.io.IOException;
 import java.util.LinkedList;
