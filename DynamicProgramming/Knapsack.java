@@ -36,7 +36,11 @@ public class Knapsack {
         System.out.println();
 
         int[][] dp = new int[items+1][weightOfKnapsack+1];
-        Arrays.fill(dp, -1);
+        
+        for(int[] n : dp){
+        Arrays.fill(n, -1);
+        }
+
         int profit = knapsackProfit(weight , prices , weightOfKnapsack , items , dp);
         System.out.println("Total profit : " + profit);
     }
