@@ -13,6 +13,7 @@ class mapList<K, V>{
     }
 }
 
+
 public class Implementation<K , V> {
     
     ArrayList<mapList<K,V>> bucket;
@@ -21,17 +22,24 @@ public class Implementation<K , V> {
      
     public Implementation(){
         bucket = new ArrayList<>();
-        numberOfbuckets = 20;
+        numberOfbuckets = 5;
         for(int i=0; i<numberOfbuckets; i++){
             bucket.add(null);
         }
     }
 
-    private int size(){
+    //find size of HashMap
+    public int size(){
         return count;
     }
 
-    private V getKey(K key){
+    //find Load factor of HashMap
+    public double loadFactor(){
+        return 1.0*count/numberOfbuckets;
+    }
+
+    //find frequency of particular key
+    public V getKey(K key){
         int bucketIndex = getIndex(key);
         mapList<K,V> head = bucket.get(bucketIndex);
         while(head!=null){
@@ -44,7 +52,8 @@ public class Implementation<K , V> {
         return null;
     }
 
-    private V remove(K key){
+    //To delete key from HashMap
+    public V remove(K key){
        int bucketIndex = getIndex(key);
        mapList<K,V> head = bucket.get(bucketIndex);
        mapList<K,V> prev = null;
@@ -56,21 +65,24 @@ public class Implementation<K , V> {
         else{
             bucket.set(bucketIndex , head.next);
         }
+        count--;
+        return head.value;
     }
-    
         prev = head;
         head = head.next;
        }
-
+       
        return null;
     }
 
+    //find index of key in ArrayList
     private int getIndex(K key){
         int re = key.hashCode();
         int index = re%numberOfbuckets;
         return index;
     }
 
+    //Insert function - to insert element in HashMap
     public void insert(K key , V value){
         int bucketIndex = getIndex(key);
         mapList<K,V> head = bucket.get(bucketIndex);
@@ -87,6 +99,32 @@ public class Implementation<K , V> {
         newNode.next= head;
         bucket.set(bucketIndex, newNode);
         count++;
+
+        double loadFactor = 1.0*count/numberOfbuckets;
+        if(loadFactor > 0.7){
+            reHash();
+        }
+    }
+
+    //Reshashing
+    private void reHash(){
+        ArrayList<mapList<K,V>> temp = bucket;
+        bucket = new ArrayList<>();
+        for(int i=0; i<2*numberOfbuckets; i++){
+            bucket.add(null);
+        } 
+        count = 0;
+        numberOfbuckets = 2*numberOfbuckets;
+        
+        for(int i=0; i<temp.size(); i++){
+            mapList<K,V> head = temp.get(i);
+            while(head!=null){
+                K key = head.key;
+                V value = head.value;
+                insert(key ,value);
+                head = head.next;
+            }
+        }
     }
 
 }
