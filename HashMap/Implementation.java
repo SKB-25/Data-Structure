@@ -27,6 +27,44 @@ public class Implementation<K , V> {
         }
     }
 
+    private int size(){
+        return count;
+    }
+
+    private V getKey(K key){
+        int bucketIndex = getIndex(key);
+        mapList<K,V> head = bucket.get(bucketIndex);
+        while(head!=null){
+            if(head.key.equals(key)){
+                return head.value;
+            }
+            head = head.next;
+        }
+
+        return null;
+    }
+
+    private V remove(K key){
+       int bucketIndex = getIndex(key);
+       mapList<K,V> head = bucket.get(bucketIndex);
+       mapList<K,V> prev = null;
+       while(head!=null){
+        if(head.key.equals(key)){
+        if(prev!=null){
+            prev.next = head.next;
+        }
+        else{
+            bucket.set(bucketIndex , head.next);
+        }
+    }
+    
+        prev = head;
+        head = head.next;
+       }
+
+       return null;
+    }
+
     private int getIndex(K key){
         int re = key.hashCode();
         int index = re%numberOfbuckets;
