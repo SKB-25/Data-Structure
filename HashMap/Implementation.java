@@ -2,6 +2,17 @@ package HashMap;
 
 import java.util.ArrayList;
 
+class mapList<K, V>{
+    K key;
+    V value;
+    mapList<K , V> next;
+
+    public mapList(K key , V value){
+           this.key = key;
+           this .value = value;
+    }
+}
+
 public class Implementation<K , V> {
     
     ArrayList<mapList<K,V>> bucket;
@@ -42,15 +53,3 @@ public class Implementation<K , V> {
 
 }
 
-
-
-class mapList<K, V>{
-    K key;
-    V value;
-    mapList<K , V> next;
-
-    public mapList(K key , V value){
-           this.key = key;
-           this .value = value;
-    }
-}
